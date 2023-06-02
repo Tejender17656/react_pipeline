@@ -1,0 +1,27 @@
+RewriteEngine On
+RewriteBase /
+
+# Add trailing slash to non-file, non-directory URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*[^/])$ /$1/ [L,R=301]
+
+# Ignore existing files and directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Check if index.html exists in the requested directory
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule ^(.+)/$ /$1/index.html [L]
+
+# If index.html doesn't exist, go back one step and check for index.html in [id] folder
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1/../[id]/index.html -f
+RewriteRule ^(.+)$ /$1/../[id]/index.html [L]
+
+# If no match found, redirect to 404.html
+RewriteCond %{REQUEST_URI} !/404/index.html$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ /404/index.html [L]

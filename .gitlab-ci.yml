@@ -1,0 +1,22 @@
+image: node:10.6.0
+
+stages:
+ - build
+ - test
+ - deploy
+before_script:
+
+       - npm install -f
+       
+      
+build-min-code:
+ stage: build
+ script:
+  - sudo npm run build
+  - sudo npm run deploy
+  - sudo npm run postexport
+  - sudo chown -R gitlab-runner:gitlab-runner * -R
+ tags:
+  - dev
+ only:
+  - dev

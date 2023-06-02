@@ -1,0 +1,9 @@
+node_modules
+.next
+storybook-static
+yarn.lock
+package-lock.json
+public
+.sublime-project
+__mocks__
+generators
